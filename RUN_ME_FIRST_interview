@@ -1,0 +1,46 @@
+#!/usr/bin/bash
+#
+#	~TST_interview
+#
+# This short script will ask the operator for input
+# needed durring the war file re-packaging and prep
+# the systems variables for the automation of the 
+# war file re-deployment.
+#
+# Modifcations:
+#
+# 01/03/17: inception, testing, syntax fix, added comments.
+# 01/04/17: updated the "base" = pwd.
+# 01/13/17: updated to use for MSTR only!
+#------------------------------------------------------------------
+# let's make sure the operator is not too powerful :
+if [[ $LOGNAME == root ]];then
+	echo -e "\nSorry, You must run this script as the WAS admin user ID.\n"
+	exit 1
+fi
+# current directory
+base=`pwd`
+export base
+echo -e "\n\nWhat container do you wish to package for re-deployment? \n"
+echo -e "Please select from this listing, copy and \n"
+WAR_base="/opt/app/webapps"
+cd ${WAR_base}
+ls -ld Micro* |grep drwx
+echo -e "\n * paste your selection here - \c "
+read Appbase
+export Appbase
+echo -e "\nPlease standby .....\n"
+#--- run the pack script with the input container -----------------
+./pack_war_file ${Appbase}
+echo -e "\n The new war file is now ready for deployment - \n"
+echo -e "Starting the WAR file re-deployment scripts ....\n"
+echo -e "\nPlease select a war file name to re-deploy. \n"
+ls -C1 Micro*.war
+echo -e "\nCopy and paste your selection here - \c"
+read WARfile
+export WARfile
+#
+cd ${base}
+./TST_Deploy_updt_WAR.sh ${WARfile}
+echo -e "\nInterview completed.\n "
+exit 0
