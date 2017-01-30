@@ -1,0 +1,27 @@
+#
+#       WAR file re-deployment instructions:
+#
+#       This set of scripts will help package,
+#       and re-deploy the application WAR file
+#       on the WAS environment by automating
+#       the entire process.
+#       Each time this set of scripts is run a new
+#       set of Jython scripting will be created.
+#       This is done by a simple interview.
+#       To start the process, all the operator
+#       needs to do is run the following script:
+#
+#       As the WAS admin user ID run:
+#       ~/scripts/RUN_ME_FIRST_interview
+#       With NO parameters. The scripts will ask
+#       for data and selections as needed to
+#       build the Jython script to actually pack
+#       and re-deploy the application WAR file.
+#
+#       NOTE! You must enter the correct information
+#       or the war file packing and re-deployment
+#       will fail.
+#       A save configuration will be forced at
+#       the end of the run.
+#
+# nothing follows.
