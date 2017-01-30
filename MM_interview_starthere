@@ -1,0 +1,62 @@
+#!/usr/bin/bash
+#
+#	~TST_interview
+#
+# This short script will ask the operator for input
+# needed durring the war file re-packaging and prep
+# the systems variables for the automation of the 
+# war file re-deployment.
+#
+# Modifcations:
+#
+# 01/03/17: inception, testing, syntax fix, added comments.
+# 01/04/17: updated the "base" = pwd.
+# 01/06/17: updated the WARbase location and exported it.
+# 01/11/17: updated,m chkd syntax for MapMangr.
+# 01/13/17: added the segragated listing for Mappin* directories.
+#	Also, Interview screen output for the operator.
+#------------------------------------------------------------------
+# let's make sure the operator is not too powerful :
+if [[ $LOGNAME == root ]];then
+	echo -e "\nSorry, You must run this script as the WAS admin user ID.\n"
+	exit 1
+fi
+# because these scripts are found in differant locations;
+# depending on userID and host.
+export base=`pwd`
+# for MappingManager only !
+echo -e "\n-------------------- Jython scripting driven by bash -------------------------------"
+echo -e "\n The following script will ask you to input at least three differant selections. "
+echo -e "\t You may cancel this script by pressing [CTRL-C] at any prompt. "
+echo -e "----------------------- MappingManager redeployment --------------------------------\n"
+echo -e "\t You will need to provide / select; \n"
+echo -e "\t\tThe War file directory (base container)."
+echo -e "\t\tThe War file name (with date stamp).,"
+echo -e "\t\tAnd the Application name to redeploy.\n"
+echo -e "------------- Begin Interview ------------------------------------------------------\n"
+echo -e "\n\nWhat base container do you wish to package for re-deployment? \n"
+echo -e "Please select from this listing, copy and \n"
+export WAR_base="/opt/app/webapps"
+cd ${WAR_base}
+echo -e "\n"
+ls -ld Mappin* |grep drwx
+echo -e "\n\t * paste your selection here - \c "
+read Appbase
+export Appbase
+echo -e "\n\t Please standby .....\n"
+#------------------------------------------------------------------
+# send the input to the war file pack script.
+sleep 3
+# comment for debuggiing:
+${WAR_base}/pack_war_file ${Appbase}
+echo -e "\n---------- The new ${Appbase} war file is now ready for deployment --------------- \n"
+echo -e "Starting the ${Appbase} WAR file re-deployment scripts ....\n"
+echo -e "Please select the new WAR file copy and\n"
+ls -la ${Appbase}_updt_*.war
+echo -e "\n\t * Paste your selection here - \c"
+read WARfile
+# send the selection to the main bash script
+cd ${base}
+./MM_Deploy_updt_WAR.sh ${WARfile}
+echo -e "\n Interview completed.\n"
+exit 0

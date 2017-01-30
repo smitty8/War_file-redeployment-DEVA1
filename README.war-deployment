@@ -12,7 +12,11 @@
 #       needs to do is run the following script:
 #
 #       As the WAS admin user ID run:
-#       ~/scripts/RUN_ME_FIRST_interview
+#       ~/scripts/TST_interview_starthere or
+#
+#	If you plan to deploy Mapping Manager run:
+#       ~/scripts/MM_interview_starthere
+#
 #       With NO parameters. The scripts will ask
 #       for data and selections as needed to
 #       build the Jython script to actually pack
